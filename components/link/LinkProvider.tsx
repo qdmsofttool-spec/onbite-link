@@ -7,6 +7,7 @@ type LinkContextValue = {
   links: LinkItem[];
   addLink: (link: Omit<LinkItem, "id" | "createdAt">) => void;
   removeLink: (id: string) => void;
+  updateLink: (id: string, edit: Pick<LinkItem, "folderId" | "title" | "description">) => void;
 };
 
 const LinkContext = createContext<LinkContextValue | null>(null);
@@ -32,7 +33,14 @@ export function LinkProvider({
     setLinks((prev) => prev.filter((l) => l.id !== id));
   }, []);
 
-  return <LinkContext.Provider value={{ links, addLink, removeLink }}>{children}</LinkContext.Provider>;
+  const updateLink = useCallback(
+    (id: string, edit: Pick<LinkItem, "folderId" | "title" | "description">) => {
+      setLinks((prev) => prev.map((l) => (l.id === id ? { ...l, ...edit } : l)));
+    },
+    [],
+  );
+
+  return <LinkContext.Provider value={{ links, addLink, removeLink, updateLink }}>{children}</LinkContext.Provider>;
 }
 
 export function useLinks() {
