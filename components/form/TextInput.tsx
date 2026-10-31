@@ -4,7 +4,7 @@ export default function TextInput(props: InputHTMLAttributes<HTMLInputElement>) 
   return (
     <input
       {...props}
-      className="w-full rounded-lg border border-zinc-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-foreground dark:border-zinc-700"
+      className="input-field w-full rounded-md border border-[var(--border)] bg-[var(--card)] px-3 py-2 text-base text-[var(--text)] transition-colors duration-150"
     />
   );
 }

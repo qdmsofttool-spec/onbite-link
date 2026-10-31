@@ -6,7 +6,7 @@ type Props = { folders: Folder[]; totalCount: number };
 
 export default function Sidebar({ folders, totalCount }: Props) {
   return (
-    <aside className="hidden w-60 shrink-0 flex-col gap-6 overflow-y-auto border-r border-zinc-200 p-4 dark:border-zinc-800 md:flex">
+    <aside className="hidden w-60 shrink-0 flex-col gap-8 overflow-y-auto border-r border-[var(--border)] p-3 md:flex">
       <SidebarItem label="ALL" href="/" count={totalCount} />
       <FolderList folders={folders} />
     </aside>

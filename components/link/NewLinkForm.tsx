@@ -8,7 +8,7 @@ import TextInput from "@/components/form/TextInput";
 export default function NewLinkForm({ folders }: { folders: Folder[] }) {
   return (
     <form
-      className="flex flex-col gap-5"
+      className="flex flex-col gap-4"
       onSubmit={(e) => e.preventDefault()} // TODO: 저장 로직 연결
     >
       <FormField label="링크" htmlFor="url">
@@ -24,7 +24,7 @@ export default function NewLinkForm({ folders }: { folders: Folder[] }) {
       </FormField>
       <button
         type="submit"
-        className="self-end rounded-lg bg-foreground px-5 py-2 text-sm font-medium text-background transition-opacity hover:opacity-80"
+        className="btn-accent self-end rounded-md bg-[var(--accent)] px-4 py-2 text-sm font-medium text-white transition-colors duration-150"
       >
         저장
       </button>

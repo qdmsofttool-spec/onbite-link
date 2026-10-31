@@ -1,26 +1,68 @@
 @import "tailwindcss";
 
+/* Notion 스타일 · 라이트모드 전용
+   명암비 3:1 이상 유지를 위해 text-sub / placeholder / accent 는 가이드 값보다 살짝 어둡게 조정 */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --bg: #f7f7f5;
+  --card: #ffffff;
+  --text: #37352f;
+  --text-sub: #787774;
+  --placeholder: #8f8e8a;
+  --border: #e3e3e0;
+  --accent: #1d8db8;
+  --accent-hover: #17789c;
+  --hover-bg: #f1f1ef;
+  --error: #eb5757;
+  --success: #4dab9a;
+  --header-bg: rgba(247, 247, 245, 0.8);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo",
+    "Malgun Gothic", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+::placeholder {
+  color: var(--placeholder);
+}
+
+/* ---- hover / focus 클래스 (서버 컴포넌트에서도 사용 가능) ---- */
+.card-hover:hover {
+  background: var(--bg);
+}
+
+.item-hover:hover {
+  background: var(--hover-bg);
+}
+
+.btn-accent:hover {
+  background: var(--accent-hover);
+}
+
+.input-field:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.input-field:invalid:not(:placeholder-shown) {
+  border-color: var(--error);
+}
+
+/* 셀렉트 화살표 (우측 배치) */
+.select-arrow {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none' stroke='%23787774' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 4.5l3 3 3-3'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }

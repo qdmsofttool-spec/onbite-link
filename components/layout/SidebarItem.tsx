@@ -17,10 +17,10 @@ export default function SidebarItem({ label, href, count, icon }: Props) {
     <Link
       href={href}
       aria-current={active ? "page" : undefined}
-      className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition-colors ${
+      className={`item-hover flex w-full items-center justify-between rounded-md px-3 py-1.5 text-left text-sm transition-colors duration-150 ${
         active
-          ? "bg-zinc-100 font-semibold dark:bg-zinc-800"
-          : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-900"
+          ? "bg-[var(--hover-bg)] font-semibold text-[var(--text)]"
+          : "text-[var(--text-sub)]"
       }`}
     >
       <span className="flex items-center gap-2">
@@ -28,7 +28,7 @@ export default function SidebarItem({ label, href, count, icon }: Props) {
         {label}
       </span>
       {count !== undefined && (
-        <span className="text-xs text-zinc-400">{count}</span>
+        <span className="text-[13px] text-[var(--text-sub)]">{count}</span>
       )}
     </Link>
   );
