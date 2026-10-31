@@ -7,6 +7,7 @@ type FolderContextValue = {
   folders: Folder[];
   addFolder: (name: string) => void;
   removeFolder: (id: number) => void;
+  renameFolder: (id: number, name: string) => void;
 };
 
 const FolderContext = createContext<FolderContextValue | null>(null);
@@ -31,8 +32,12 @@ export function FolderProvider({
     setFolders((prev) => prev.filter((f) => f.id !== id));
   }, []);
 
+  const renameFolder = useCallback((id: number, name: string) => {
+    setFolders((prev) => prev.map((f) => (f.id === id ? { ...f, name } : f)));
+  }, []);
+
   return (
-    <FolderContext.Provider value={{ folders, addFolder, removeFolder }}>
+    <FolderContext.Provider value={{ folders, addFolder, removeFolder, renameFolder }}>
       {children}
     </FolderContext.Provider>
   );
