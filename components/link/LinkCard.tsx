@@ -12,6 +12,16 @@ export default function LinkCard({ link, folderName }: Props) {
       rel="noopener noreferrer"
       className="card-hover flex flex-col gap-2 rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 transition-colors duration-150"
     >
+      {link.thumbnail && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={link.thumbnail}
+          alt=""
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          className="aspect-[1.91/1] w-full rounded-md bg-[var(--hover-bg)] object-cover"
+        />
+      )}
       <div className="flex items-center justify-between gap-2 text-[13px] text-[var(--text-sub)]">
         <span className="truncate">{host}</span>
         {folderName && (
