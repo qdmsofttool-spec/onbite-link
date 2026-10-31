@@ -10,7 +10,7 @@ export default function LinkCard({ link, folderName }: Props) {
       href={link.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="card-hover flex flex-col gap-2 rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 transition-colors duration-150"
+      className="card-hover flex h-full flex-col gap-2 rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 transition-colors duration-150"
     >
       {link.thumbnail && (
         // eslint-disable-next-line @next/next/no-img-element
