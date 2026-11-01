@@ -2,10 +2,11 @@
 
 import { createContext, useCallback, useContext, useState } from "react";
 import type { LinkItem } from "@/lib/types";
+import { createClient } from "@/utils/supabase/client";
 
 type LinkContextValue = {
   links: LinkItem[];
-  addLink: (link: Omit<LinkItem, "id" | "createdAt">) => void;
+  addLink: (link: Omit<LinkItem, "id" | "createdAt">) => Promise<boolean>;
   removeLink: (id: string) => void;
   updateLink: (id: string, edit: Pick<LinkItem, "folderId" | "title" | "description">) => void;
 };
@@ -21,12 +22,24 @@ export function LinkProvider({
 }) {
   const [links, setLinks] = useState(initialLinks);
 
-  const addLink = useCallback((link: Omit<LinkItem, "id" | "createdAt">) => {
-    setLinks((prev) => {
-      const nextId = prev.reduce((max, l) => Math.max(max, Number(l.id)), 0) + 1;
-      const createdAt = new Date().toISOString().slice(0, 10);
-      return [{ ...link, id: String(nextId), createdAt }, ...prev];
-    });
+  const addLink = useCallback(async (link: Omit<LinkItem, "id" | "createdAt">) => {
+    const { data, error } = await createClient()
+      .from("links")
+      .insert({
+        url: link.url,
+        title: link.title,
+        description: link.description,
+        thumbnail_url: link.thumbnail ?? null,
+        folder_id: link.folderId,
+      })
+      .select("id, created_at")
+      .single();
+    if (error || !data) return false;
+    setLinks((prev) => [
+      { ...link, id: String(data.id), createdAt: data.created_at.slice(0, 10) },
+      ...prev,
+    ]);
+    return true;
   }, []);
 
   const removeLink = useCallback((id: string) => {

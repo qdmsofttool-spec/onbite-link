@@ -26,7 +26,7 @@ export default function EditLinkDialog({ link, onCancel, onSave }: Props) {
     const dialog = dialogRef.current;
     if (!dialog) return;
     if (link && !dialog.open) {
-      setFolderId(String(link.folderId));
+      setFolderId(String(link.folderId ?? ""));
       setTitle(link.title);
       setDescription(link.description);
       dialog.showModal();

@@ -27,13 +27,14 @@ export default function NewLinkForm() {
       const res = await fetch(`/api/og?url=${encodeURIComponent(url)}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-      addLink({
+      const saved = await addLink({
         title: data.title,
         description: data.description,
         thumbnail: data.thumbnail,
         url: data.url,
         folderId,
       });
+      if (!saved) throw new Error("링크를 저장하지 못했습니다.");
       router.push(`/folder/${folderId}`);
     } catch (err) {
       setError(err instanceof Error && err.message ? err.message : "링크를 저장하지 못했습니다.");

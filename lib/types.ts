@@ -10,6 +10,6 @@ export type LinkItem = {
   description: string;
   url: string;
   thumbnail?: string | null;
-  folderId: number;
+  folderId: number | null;
   createdAt: string;
 };

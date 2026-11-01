@@ -23,7 +23,7 @@ export default function LinkGrid({ folderId }: { folderId?: number }) {
     <section className="grid grid-cols-1 gap-4 sm:grid-cols-2">
       {visible.map((link) => (
         <div key={link.id} className="group relative flex flex-col">
-          <LinkCard link={link} folderName={folderNames.get(link.folderId)} />
+          <LinkCard link={link} folderName={link.folderId === null ? undefined : folderNames.get(link.folderId)} />
           <div className="absolute right-2 top-2 flex gap-1">
             <button
               type="button"

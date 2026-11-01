@@ -1,10 +1,7 @@
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import LinkGrid from "@/components/link/LinkGrid";
-import { folders } from "@/lib/mock-data";
-
-export function generateStaticParams() {
-  return folders.map((f) => ({ id: String(f.id) }));
-}
+import { createClient } from "@/utils/supabase/server";
 
 export default async function FolderPage({
   params,
@@ -12,9 +9,15 @@ export default async function FolderPage({
   params: Promise<{ id: string }>;
 }) {
   const folderId = Number((await params).id);
-  const folder = folders.find((f) => f.id === folderId);
-  if (!folder) notFound();
+  if (!Number.isInteger(folderId)) notFound();
 
+  const supabase = createClient(await cookies());
+  const { data: folder } = await supabase
+    .from("folders")
+    .select("name")
+    .eq("id", folderId)
+    .maybeSingle();
+  if (!folder) notFound();
 
   return (
     <div>
