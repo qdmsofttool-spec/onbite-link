@@ -12,10 +12,15 @@ export default async function FolderPage({
   if (!Number.isInteger(folderId)) notFound();
 
   const supabase = createClient(await cookies());
+  const { data: auth } = await supabase.auth.getClaims();
+  const userId = auth?.claims?.sub;
+  if (!userId) notFound();
+
   const { data: folder } = await supabase
     .from("folders")
     .select("name")
     .eq("id", folderId)
+    .eq("user_id", userId)
     .maybeSingle();
   if (!folder) notFound();
 
