@@ -7,7 +7,7 @@ import { createClient } from "@/utils/supabase/client";
 type LinkContextValue = {
   links: LinkItem[];
   addLink: (link: Omit<LinkItem, "id" | "createdAt">) => Promise<boolean>;
-  removeLink: (id: string) => void;
+  removeLink: (id: string) => Promise<boolean>;
   updateLink: (id: string, edit: Pick<LinkItem, "folderId" | "title" | "description">) => Promise<boolean>;
 };
 
@@ -42,8 +42,11 @@ export function LinkProvider({
     return true;
   }, []);
 
-  const removeLink = useCallback((id: string) => {
+  const removeLink = useCallback(async (id: string) => {
+    const { error } = await createClient().from("links").delete().eq("id", Number(id));
+    if (error) return false;
     setLinks((prev) => prev.filter((l) => l.id !== id));
+    return true;
   }, []);
 
   const updateLink = useCallback(

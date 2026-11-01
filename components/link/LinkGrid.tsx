@@ -58,9 +58,8 @@ export default function LinkGrid({ folderId }: { folderId?: number }) {
       <DeleteLinkDialog
         link={deleteTarget}
         onCancel={() => setDeleteTarget(null)}
-        onConfirm={(l) => {
-          removeLink(l.id);
-          setDeleteTarget(null);
+        onConfirm={async (l) => {
+          if (await removeLink(l.id)) setDeleteTarget(null);
         }}
       />
     </section>

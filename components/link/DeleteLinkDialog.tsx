@@ -6,7 +6,7 @@ import type { LinkItem } from "@/lib/types";
 type Props = {
   link: LinkItem | null;
   onCancel: () => void;
-  onConfirm: (link: LinkItem) => void;
+  onConfirm: (link: LinkItem) => Promise<void>;
 };
 
 export default function DeleteLinkDialog({ link, onCancel, onConfirm }: Props) {
