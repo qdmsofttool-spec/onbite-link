@@ -6,7 +6,7 @@ import type { Folder } from "@/lib/types";
 type Props = {
   folder: Folder | null;
   onCancel: () => void;
-  onConfirm: (folder: Folder) => void;
+  onConfirm: (folder: Folder) => Promise<void>;
 };
 
 export default function DeleteFolderDialog({ folder, onCancel, onConfirm }: Props) {

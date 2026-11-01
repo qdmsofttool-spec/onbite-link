@@ -18,8 +18,8 @@ export default function FolderList({ folders }: { folders: Folder[] }) {
   const pathname = usePathname();
   const router = useRouter();
 
-  const handleDelete = (folder: Folder) => {
-    removeFolder(folder.id);
+  const handleDelete = async (folder: Folder) => {
+    if (!(await removeFolder(folder.id))) return;
     setDeleteTarget(null);
     if (pathname === `/folder/${folder.id}`) router.push("/");
   };
