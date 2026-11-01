@@ -8,7 +8,7 @@ type LinkContextValue = {
   links: LinkItem[];
   addLink: (link: Omit<LinkItem, "id" | "createdAt">) => Promise<boolean>;
   removeLink: (id: string) => void;
-  updateLink: (id: string, edit: Pick<LinkItem, "folderId" | "title" | "description">) => void;
+  updateLink: (id: string, edit: Pick<LinkItem, "folderId" | "title" | "description">) => Promise<boolean>;
 };
 
 const LinkContext = createContext<LinkContextValue | null>(null);
@@ -47,8 +47,14 @@ export function LinkProvider({
   }, []);
 
   const updateLink = useCallback(
-    (id: string, edit: Pick<LinkItem, "folderId" | "title" | "description">) => {
+    async (id: string, edit: Pick<LinkItem, "folderId" | "title" | "description">) => {
+      const { error } = await createClient()
+        .from("links")
+        .update({ folder_id: edit.folderId, title: edit.title, description: edit.description })
+        .eq("id", Number(id));
+      if (error) return false;
       setLinks((prev) => prev.map((l) => (l.id === id ? { ...l, ...edit } : l)));
+      return true;
     },
     [],
   );

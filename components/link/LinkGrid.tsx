@@ -51,9 +51,8 @@ export default function LinkGrid({ folderId }: { folderId?: number }) {
       <EditLinkDialog
         link={editTarget}
         onCancel={() => setEditTarget(null)}
-        onSave={(id, edit) => {
-          updateLink(id, edit);
-          setEditTarget(null);
+        onSave={async (id, edit) => {
+          if (await updateLink(id, edit)) setEditTarget(null);
         }}
       />
       <DeleteLinkDialog

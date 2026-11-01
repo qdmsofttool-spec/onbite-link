@@ -12,7 +12,7 @@ export type LinkEdit = Pick<LinkItem, "folderId" | "title" | "description">;
 type Props = {
   link: LinkItem | null;
   onCancel: () => void;
-  onSave: (id: string, edit: LinkEdit) => void;
+  onSave: (id: string, edit: LinkEdit) => Promise<void>;
 };
 
 export default function EditLinkDialog({ link, onCancel, onSave }: Props) {
