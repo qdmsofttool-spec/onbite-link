@@ -25,7 +25,17 @@ export const createClient = async (request: NextRequest) => {
   });
 
   // Refreshes the session (and writes updated cookies via setAll) if needed.
-  await supabase.auth.getClaims();
+  const { data } = await supabase.auth.getClaims();
+
+  const { pathname } = request.nextUrl;
+  const isProtected =
+    pathname === "/" || pathname === "/new" || pathname === "/folder" || pathname.startsWith("/folder/");
+
+  if (isProtected && !data?.claims) {
+    const redirect = NextResponse.redirect(new URL("/login", request.url));
+    supabaseResponse.cookies.getAll().forEach((c) => redirect.cookies.set(c));
+    return redirect;
+  }
 
   return supabaseResponse;
 };
