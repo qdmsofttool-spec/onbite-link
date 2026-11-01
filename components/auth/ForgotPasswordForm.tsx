@@ -40,7 +40,7 @@ export default function ForgotPasswordForm() {
 
     setLoading(true);
     const { error } = await createClient().auth.resetPasswordForEmail(email.trim(), {
-      redirectTo: `${window.location.origin}/auth/callback`,
+      redirectTo: `${window.location.origin}/auth/callback?next=/reset-password`,
     });
     setLoading(false);
     if (error) {
