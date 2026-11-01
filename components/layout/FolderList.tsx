@@ -24,9 +24,8 @@ export default function FolderList({ folders }: { folders: Folder[] }) {
     if (pathname === `/folder/${folder.id}`) router.push("/");
   };
 
-  const handleSave = (id: number, name: string) => {
-    renameFolder(id, name);
-    setEditTarget(null);
+  const handleSave = async (id: number, name: string) => {
+    if (await renameFolder(id, name)) setEditTarget(null);
   };
 
   return (

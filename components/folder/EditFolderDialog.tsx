@@ -8,7 +8,7 @@ import type { Folder } from "@/lib/types";
 type Props = {
   folder: Folder | null;
   onCancel: () => void;
-  onSave: (id: number, name: string) => void;
+  onSave: (id: number, name: string) => Promise<void>;
 };
 
 export default function EditFolderDialog({ folder, onCancel, onSave }: Props) {
