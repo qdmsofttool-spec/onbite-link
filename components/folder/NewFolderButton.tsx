@@ -9,16 +9,21 @@ export default function NewFolderButton() {
   const { addFolder } = useFolders();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [name, setName] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   const open = () => dialogRef.current?.showModal();
   const close = () => dialogRef.current?.close();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = name.trim();
-    if (!trimmed) return;
-    addFolder(trimmed);
-    close();
+    if (!trimmed || submitting) return;
+    setSubmitting(true);
+    try {
+      if (await addFolder(trimmed)) close();
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -59,7 +64,7 @@ export default function NewFolderButton() {
             </button>
             <button
               type="submit"
-              disabled={!name.trim()}
+              disabled={!name.trim() || submitting}
               className="btn-accent rounded-md bg-[var(--accent)] px-4 py-2 text-sm font-medium text-white transition-colors duration-150 disabled:opacity-50"
             >
               저장

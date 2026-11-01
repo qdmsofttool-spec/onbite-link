@@ -2,9 +2,16 @@ import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
 import { FolderProvider } from "@/components/folder/FolderProvider";
 import { LinkProvider } from "@/components/link/LinkProvider";
-import { folders, links } from "@/lib/mock-data";
+import { links } from "@/lib/mock-data";
+import type { Folder } from "@/lib/types";
+import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
 
-export default function MainLayout({ children }: { children: React.ReactNode }) {
+export default async function MainLayout({ children }: { children: React.ReactNode }) {
+  const supabase = createClient(await cookies());
+  const { data } = await supabase.from("folders").select("id, name").order("id", { ascending: true });
+  const folders: Folder[] = (data ?? []).map((f) => ({ ...f, count: 0 }));
+
   return (
     <FolderProvider initialFolders={folders}>
       <LinkProvider initialLinks={links}>
