@@ -25,7 +25,7 @@ export default function LogoutButton() {
       type="button"
       onClick={handleLogout}
       disabled={loading}
-      className="item-hover mt-auto w-full rounded-md px-3 py-2 text-left text-sm font-medium text-[var(--text-sub)] transition-colors duration-150 disabled:opacity-50"
+      className="item-hover w-full rounded-md px-3 py-2 text-left text-sm font-medium text-[var(--text-sub)] transition-colors duration-150 disabled:opacity-50"
     >
       {loading ? "로그아웃 중..." : "로그아웃"}
     </button>

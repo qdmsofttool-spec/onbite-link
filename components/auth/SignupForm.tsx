@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import FormField from "@/components/form/FormField";
 import TextInput from "@/components/form/TextInput";
@@ -23,6 +24,7 @@ export default function SignupForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [agreed, setAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
 
@@ -32,7 +34,7 @@ export default function SignupForm() {
     return () => clearTimeout(timer);
   }, [toast]);
 
-  const canSubmit = email.trim() !== "" && password !== "" && confirm !== "" && !loading;
+  const canSubmit = email.trim() !== "" && password !== "" && confirm !== "" && agreed && !loading;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -97,6 +99,21 @@ export default function SignupForm() {
             onChange={(e) => setConfirm(e.target.value)}
           />
         </FormField>
+        <label className="flex items-start gap-2 text-sm text-[var(--text-sub)]">
+          <input
+            type="checkbox"
+            checked={agreed}
+            onChange={(e) => setAgreed(e.target.checked)}
+            className="mt-0.5"
+          />
+          <span>
+            [필수]{" "}
+            <Link href="/privacy" target="_blank" className="text-[var(--accent)] underline">
+              개인정보 처리방침
+            </Link>
+            에 따른 개인정보 수집·이용에 동의합니다.
+          </span>
+        </label>
         <button
           type="submit"
           disabled={!canSubmit}
