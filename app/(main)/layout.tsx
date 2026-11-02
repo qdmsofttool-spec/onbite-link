@@ -5,9 +5,19 @@ import { LinkProvider } from "@/components/link/LinkProvider";
 import type { Folder, LinkItem } from "@/lib/types";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 
-export default async function MainLayout({ children }: { children: React.ReactNode }) {
+export default function MainLayout({ children }: { children: React.ReactNode }) {
+  // cookies()를 쓰는 데이터 조회는 Suspense 안에서 실행해야 프리렌더링이 막히지 않는다.
+  return (
+    <Suspense fallback={null}>
+      <MainShell>{children}</MainShell>
+    </Suspense>
+  );
+}
+
+async function MainShell({ children }: { children: React.ReactNode }) {
   const supabase = createClient(await cookies());
   const { data: auth } = await supabase.auth.getClaims();
   const userId = auth?.claims?.sub;
